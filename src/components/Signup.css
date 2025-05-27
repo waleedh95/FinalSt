@@ -1,0 +1,105 @@
+/* src/components/Signup.css */
+
+/* 1. Color variables (same as Home & Login) */
+:root {
+  --donation-red: #dc3545;
+  --donation-red-dark: #c82333;
+  --confidence-blue: #17a2b8;
+  --confidence-blue-dark: #138496;
+  --bg-light: #f8f9fa;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --muted-gray: #6c757d;
+}
+
+/* Container */
+.signup-container {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  padding: 2rem;
+}
+
+/* Card */
+.signup-card {
+  background: var(--off-white);
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+.signup-title {
+  margin-bottom: 1.5rem;
+  color: var(--donation-red);
+  font-size: 1.75rem;
+}
+
+/* Form */
+.signup-form .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.signup-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: var(--text-gray);
+}
+.signup-form input,
+.signup-form select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--muted-gray);
+  border-radius: 4px;
+  font-size: 1rem;
+  color: var(--text-gray);
+  transition: border-color 0.2s;
+}
+.signup-form input:focus,
+.signup-form select:focus {
+  outline: none;
+  border-color: var(--confidence-blue);
+}
+
+/* Button */
+.btn.signup-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--donation-red);
+  color: var(--off-white);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 0.5rem;
+}
+.btn.signup-btn:hover {
+  background: var(--donation-red-dark);
+}
+
+/* Footer Links */
+.signup-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted-gray);
+}
+.signup-footer .link {
+  color: var(--confidence-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.signup-footer .link:hover {
+  color: var(--confidence-blue-dark);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 1.5rem 1.5rem;
+  }
+}
