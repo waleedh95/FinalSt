@@ -1,0 +1,7 @@
+.donor-dashboard {
+  padding: 1rem;
+}
+.donor-dashboard nav a {
+  margin-right: 1rem;
+  font-weight: bold;
+}

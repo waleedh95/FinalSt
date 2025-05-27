@@ -1,0 +1,102 @@
+/* src/components/Login.css */
+
+/* 1. Color variables */
+:root {
+  --donation-red: #dc3545;
+  --donation-red-dark: #c82333;
+  --confidence-blue: #17a2b8;
+  --bg-light: #f8f9fa;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --muted-gray: #6c757d;
+}
+
+/* Container */
+.login-container {
+  min-height: calc(100vh - 60px); /* adjust if header exists */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light);
+  padding: 2rem;
+}
+
+/* Card */
+.login-card {
+  background: var(--off-white);
+  padding: 2rem 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+.login-title {
+  margin-bottom: 1.5rem;
+  color: var(--donation-red);
+  font-size: 1.75rem;
+}
+
+/* Form */
+.login-form .form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.login-form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-gray);
+  font-weight: 500;
+}
+.login-form input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--muted-gray);
+  border-radius: 4px;
+  font-size: 1rem;
+  color: var(--text-gray);
+  transition: border-color 0.2s;
+}
+.login-form input:focus {
+  outline: none;
+  border-color: var(--confidence-blue);
+}
+
+/* Button */
+.btn.login-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--donation-red);
+  color: var(--off-white);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 0.5rem;
+}
+.btn.login-btn:hover {
+  background: var(--donation-red-dark);
+}
+
+/* Footer Links */
+.login-footer {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--muted-gray);
+}
+.login-footer .link {
+  color: var(--confidence-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.login-footer .link:hover {
+  color: var(--confidence-blue-dark);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem 1.5rem;
+  }
+}

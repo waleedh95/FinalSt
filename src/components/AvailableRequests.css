@@ -1,0 +1,22 @@
+.available-list {
+  list-style: none;
+  padding: 0;
+}
+.available-list li {
+  background: #fff;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+}
+.available-list button {
+  padding: 0.4rem 0.8rem;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

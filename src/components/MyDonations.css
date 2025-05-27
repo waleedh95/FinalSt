@@ -1,0 +1,11 @@
+.donations-list {
+  list-style: none;
+  padding: 0;
+}
+.donations-list li {
+  background: #fff;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
