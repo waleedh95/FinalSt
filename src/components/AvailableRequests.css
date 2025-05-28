@@ -1,22 +1,116 @@
-.available-list {
-  list-style: none;
-  padding: 0;
+/* src/components/AvailableRequests.css */
+
+/* 1. Brand palette */
+:root {
+  --donation-red: #dc3545;
+  --vital-green: #28a745;
+  --confidence-blue: #17a2b8;
+  --bg-light: #f8f9fa;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --divider: rgba(0, 0, 0, 0.05);
 }
-.available-list li {
-  background: #fff;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  border-radius: 6px;
+
+/* Container & Header */
+.available-requests-container {
+  padding: 2rem;
+  background: var(--bg-light);
+  font-family: sans-serif;
+}
+.available-header {
+  text-align: center;
+  color: var(--vital-green);
+  margin-bottom: 1.5rem;
+}
+
+/* Grid Layout */
+.available-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Card */
+.available-card {
+  background: var(--off-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--divider);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.available-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px var(--divider);
+}
+
+/* Card Header */
+.available-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #e0e0e0;
+  margin-bottom: 0.75rem;
 }
-.available-list button {
-  padding: 0.4rem 0.8rem;
-  background: #007bff;
-  color: #fff;
+.available-blood-type {
+  font-size: 1.5rem;
+  color: var(--donation-red);
+  font-weight: bold;
+}
+.available-status.active {
+  color: var(--vital-green);
+  font-weight: bold;
+}
+.available-status.fulfilled {
+  color: var(--donation-red);
+  font-weight: bold;
+}
+
+/* Card Body */
+.available-card-body p {
+  margin: 0.25rem 0;
+  color: var(--text-gray);
+}
+
+/* Actions */
+.available-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.btn.donate-btn {
+  flex: 1;
+  background: var(--vital-green);
+  color: var(--off-white);
   border: none;
   border-radius: 4px;
+  padding: 0.5rem;
   cursor: pointer;
+  transition: background 0.2s;
+}
+.btn.donate-btn:hover {
+  background: #218838;
+}
+/* Renamed detail button to avoid overlap */
+.btn.available-detail-btn {
+  flex: 1;
+  background: var(--confidence-blue);
+  color: var(--off-white);
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+.btn.available-detail-btn:hover {
+  background: #138496;
+}
+
+/* Loading State */
+.available-loading {
+  text-align: center;
+  color: var(--text-gray);
+  margin-top: 2rem;
 }

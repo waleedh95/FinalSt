@@ -1,11 +1,73 @@
-.donations-list {
-  list-style: none;
-  padding: 0;
+/* src/components/MyDonations.css */
+
+/* LifeLink color palette */
+:root {
+  --donation-red: #dc3545;
+  --vital-green: #28a745;
+  --confidence-blue: #17a2b8;
+  --bg-light: #f8f9fa;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --divider: rgba(0, 0, 0, 0.05);
 }
-.donations-list li {
-  background: #fff;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+
+/* Container & Header */
+.my-donations-container {
+  padding: 2rem;
+  background: var(--bg-light);
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.md-header {
+  text-align: center;
+  color: var(--confidence-blue);
+  margin-bottom: 1rem;
+}
+
+/* Table */
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--off-white);
+  box-shadow: 0 2px 6px var(--divider);
+}
+.md-table thead {
+  background: var(--vital-green);
+  color: #fff;
+}
+.md-table th,
+.md-table td {
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--divider);
+}
+.md-table tbody tr:hover {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+/* Status badges */
+.md-status.pending {
+  color: var(--donation-red);
+  font-weight: bold;
+}
+.md-status.completed {
+  color: var(--vital-green);
+  font-weight: bold;
+}
+
+/* Loading/Empty state */
+.md-loading {
+  text-align: center;
+  color: var(--text-gray);
+  margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .md-table th,
+  .md-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
 }

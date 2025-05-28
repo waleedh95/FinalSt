@@ -40,3 +40,46 @@
 .read-the-docs {
   color: #888;
 }
+/* Navbar styling (e.g. in src/App.css) */
+
+/* 1. Reuse your palette */
+:root {
+  --donation-red: #dc3545;
+  --vital-green: #28a745;
+  --confidence-blue: #17a2b8;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --divider: rgba(0, 0, 0, 0.05);
+}
+
+/* 2. Sticky nav container */
+nav.p-3 {
+  background: var(--off-white);
+  box-shadow: 0 2px 4px var(--divider);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem; /* override bootstrap p-3 if desired */
+}
+
+/* 3. Nav links */
+nav.p-3 a {
+  color: var(--text-gray);
+  margin-right: 1.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+/* 4. Hover state */
+nav.p-3 a:hover {
+  color: var(--donation-red);
+}
+
+/* 5. Active link (add class="active" to the current <Link>) */
+nav.p-3 a.active {
+  color: var(--donation-red);
+  font-weight: 600;
+}
