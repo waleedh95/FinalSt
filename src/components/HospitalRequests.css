@@ -1,11 +1,94 @@
-.requests-list {
-  list-style: none;
-  padding: 0;
+/* src/components/HospitalRequests.css */
+
+/* Reuse LifeLink palette */
+:root {
+  --donation-red: #dc3545;
+  --donation-red-dark: #c82333;
+  --vital-green: #28a745;
+  --text-gray: #212529;
+  --bg-light: #f8f9fa;
+  --off-white: #ffffff;
+  --divider: rgba(0, 0, 0, 0.05);
 }
-.requests-list li {
-  background: #fff;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+
+/* Container & heading */
+.hospital-requests-container {
+  padding: 2rem;
+  background: var(--bg-light);
+  font-family: sans-serif;
+}
+.hospital-requests-container h2 {
+  color: var(--donation-red);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Grid layout */
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card styling */
+.request-card {
+  background: var(--off-white);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--divider);
+}
+.request-card h3 {
+  margin: 0 0 0.5rem;
+}
+.request-card p {
+  margin: 0.25rem 0;
+}
+
+/* Status badge */
+.status.active {
+  color: var(--vital-green);
+  font-weight: bold;
+}
+.status.fulfilled {
+  color: var(--donation-red);
+  font-weight: bold;
+}
+
+/* Actions row */
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.btn.detail-btn {
+  background: var(--donation-red);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+.btn.detail-btn:hover {
+  background: var(--donation-red-dark);
+}
+.btn.cancel-btn {
+  background: #6c757d;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.btn.cancel-btn:hover {
+  background: #5a6268;
+}
+
+/* Loading state */
+.loading {
+  color: var(--text-gray);
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 2rem;
 }

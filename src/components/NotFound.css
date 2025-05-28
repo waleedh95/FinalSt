@@ -1,8 +1,57 @@
-.notfound-container {
-  text-align: center;
-  padding: 2rem;
+/* src/components/NotFound.css */
+
+/* 1. Palette */
+:root {
+  --donation-red: #dc3545;
+  --bg-light: #f8f9fa;
+  --text-gray: #212529;
+  --muted-gray: #6c757d;
 }
-.notfound-container h1 {
-  font-size: 2rem;
-  color: #dc3545;
+
+/* 2. Container: full-screen, centered */
+.nf-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 60px); /* adjust if you have a header */
+  background: var(--bg-light);
+  font-family: sans-serif;
+}
+
+/* 3. Card: white box with shadow */
+.nf-card {
+  text-align: center;
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Error code styling */
+.nf-code {
+  font-size: 6rem;
+  color: var(--donation-red);
+  margin: 0;
+}
+
+/* 5. Message styling */
+.nf-message {
+  font-size: 1.5rem;
+  color: var(--muted-gray);
+  margin: 0.5rem 0 1.5rem;
+}
+
+/* 6. Home button */
+.nf-home-btn {
+  display: inline-block;
+  background: var(--donation-red);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.nf-home-btn:hover {
+  background: #c82333;
 }

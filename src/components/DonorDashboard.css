@@ -1,7 +1,66 @@
-.donor-dashboard {
-  padding: 1rem;
+/* src/components/DonorDashboard.css */
+
+/* 1. Shared palette variables */
+:root {
+  --donation-red: #dc3545;
+  --vital-green: #28a745;
+  --vital-green-dark: #218838;
+  --confidence-blue: #17a2b8;
+  --off-white: #ffffff;
+  --text-gray: #212529;
+  --bg-light: #f8f9fa;
+  --divider: rgba(0, 0, 0, 0.05);
 }
-.donor-dashboard nav a {
-  margin-right: 1rem;
-  font-weight: bold;
+
+/* 2. Container for entire donor dashboard */
+.donor-dashboard-container {
+  background: var(--bg-light);
+  min-height: calc(100vh - 60px); /* adjust if you have a fixed header */
+  padding: 2rem;
+  font-family: sans-serif;
+  color: var(--text-gray);
+}
+
+/* 3. Header styling */
+.donor-dashboard-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.donor-dashboard-title {
+  font-size: 1.75rem;
+  color: var(--vital-green);
+  margin: 0;
+}
+
+/* 4. Sub-nav styling */
+.donor-dashboard-nav {
+  margin-top: 0.75rem;
+}
+.btn.donor-nav-btn {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--vital-green);
+  color: var(--off-white);
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn.donor-nav-btn:hover {
+  background: var(--vital-green-dark);
+}
+
+/* 5. Main content area for nested routes */
+.donor-dashboard-content {
+  margin-top: 2rem;
+}
+
+/* 6. Responsive tweaks */
+@media (max-width: 600px) {
+  .btn.donor-nav-btn {
+    margin: 0.25rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
 }
