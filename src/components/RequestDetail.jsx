@@ -1,68 +1,78 @@
-// src/components/RequestDetail.jsx
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import './RequestDetail.css';
 
-import React, { useEffect, useState } from 'react';             
-import {
-  useParams,
-  useNavigate,
-  useLocation
-} from 'react-router-dom';                                      
-import './RequestDetail.css';                                    
+const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
-const RequestDetail = () => {                                   
-  const { id } = useParams();                                    // 1. Grab the `:id` from the URL  
-  const navigate = useNavigate();                                // 2. For imperatively navigating back  
-  const location = useLocation();                                // 3. To detect hospital vs donor path  
-  const isHospital = location.pathname.startsWith('/hospital');  // 4. Determine role by URL prefix  
+const RequestDetail = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [request, setRequest] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const [request, setRequest] = useState(null);                  // 5. Will hold the fetched request  
-  const [loading, setLoading] = useState(true);                  // 6. Loading indicator  
-
-  useEffect(() => {                                             
-    const fetchRequest = async () => {                          
-      // TODO: replace with real API call
-      const data = await Promise.resolve({                       
-        id,
-        bloodType: 'A+',
-        units: 5,
-        fulfilled: 2,
-        status: 'Active',
-        location: 'City Hospital – Ward 3',
-        deadline: '2025-06-10',
-        notes: 'Urgent need for surgery tomorrow'
-      });
-      setRequest(data);                                          // 7. Populate state  
-      setLoading(false);                                        // 8. Turn off loading  
+  // Fetch single request
+  useEffect(() => {
+    const fetchRequest = async () => {
+      try {
+        const res = await fetch(`${BACKEND}/api/requests/${id}`, {
+          credentials: 'include'
+        });
+        if (!res.ok) throw new Error('Failed to load request');
+        const data = await res.json();
+        setRequest(data);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchRequest();                                             
+    fetchRequest();
   }, [id]);
 
-  if (loading) {                                               
-    return <div className="detail-loading">Loading request...</div>;
-  }
-  if (!request) {                                              
-    return <div className="detail-loading">Request not found.</div>;
-  }
+  // Cancel (delete) the request
+  const handleCancel = async () => {
+    if (!window.confirm('Cancel this request?')) return;
+    try {
+      const res = await fetch(`${BACKEND}/api/requests/${id}`, {
+        method: 'DELETE',
+        credentials: 'include'
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Cancel failed');
+      }
+      navigate('/hospital/requests');
+    } catch (e) {
+      alert(e.message);
+    }
+  };
 
-  return (                                                     
+  if (loading) return <div className="detail-loading">Loading request...</div>;
+  if (error)   return <div className="detail-loading">{error}</div>;
+  if (!request) return <div className="detail-loading">Request not found.</div>;
+
+  return (
     <div className="request-detail-container">
       <h2 className="detail-header">Request Details</h2>
-
       <div className="detail-card">
         <div className="detail-row">
           <span className="detail-label">Blood Type:</span>
-          <span className="detail-value">{request.bloodType}</span>
+          <span className="detail-value">{request.blood_type}</span>
         </div>
         <div className="detail-row">
           <span className="detail-label">Units Needed:</span>
-          <span className="detail-value">{request.units}</span>
+          <span className="detail-value">{request.units_needed}</span>
         </div>
         <div className="detail-row">
           <span className="detail-label">Units Fulfilled:</span>
-          <span className="detail-value">{request.fulfilled}</span>
+          <span className="detail-value">{request.units_fulfilled}</span>
         </div>
         <div className="detail-row">
           <span className="detail-label">Status:</span>
-          <span className={`detail-value status ${request.status.toLowerCase()}`}>
+          <span
+            className={`detail-value status ${request.status.toLowerCase()}`}
+          >
             {request.status}
           </span>
         </div>
@@ -80,30 +90,13 @@ const RequestDetail = () => {
             <span className="detail-value">{request.notes}</span>
           </div>
         )}
-
         <div className="detail-actions">
-          <button
-            className="btn back-btn"
-            onClick={() => navigate(-1)}                        // 9. Go back to previous list
-          >
+          <button className="btn back-btn" onClick={() => navigate(-1)}>
             Back
           </button>
-
-          {request.status === 'Active' && isHospital && (
-            <button
-              className="btn cancel-btn"
-              onClick={() => console.log('Cancel', id)}      // 10. TODO: cancel request API call
-            >
+          {request.status === 'Active' && (
+            <button className="btn cancel-btn" onClick={handleCancel}>
               Cancel Request
-            </button>
-          )}
-
-          {request.status === 'Active' && !isHospital && (
-            <button
-              className="btn donate-btn"
-              onClick={() => console.log('Donate to', id)}    // 11. TODO: donate API call
-            >
-              Donate
             </button>
           )}
         </div>
@@ -112,4 +105,4 @@ const RequestDetail = () => {
   );
 };
 
-export default RequestDetail;                                    
+export default RequestDetail;
