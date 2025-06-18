@@ -1,50 +1,51 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import './CreateRequest.css';
+import './CreateRequest.css';  // assume you have some styles here
 
 const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
-const CreateRequest = () => {
+export default function CreateRequest() {
   const navigate = useNavigate();
 
-  const [bloodType, setBloodType] = useState('A+');
-  const [units, setUnits] = useState(1);
-  const [location, setLocation] = useState('');
-  const [deadline, setDeadline] = useState('');
-  const [notes, setNotes] = useState('');
+  // mirror exactly the fields in your router.post(...)
+  const [form, setForm] = useState({
+    hospital_id: 1,     // default for testing; replace with real user ID later
+    blood_type:  'A+',
+    units_needed: 1,
+    location:     '',
+    deadline:     '',
+    notes:        ''
+  });
   const [error, setError] = useState('');
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(f => ({
+      ...f,
+      [name]: name === 'units_needed' 
+        ? Number(value)    // ensure we send a number
+        : value
+    }));
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
 
-    if (!user) {
-      setError('Please log in to create a request');
-      return;
-    }
-
     try {
       const res = await fetch(`${BACKEND}/api/requests`, {
         method: 'POST',
-        credentials: 'include',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.access_token}`
-        },
-        body: JSON.stringify({
-          blood_type: bloodType,
-          units_needed: units,
-          location,
-          deadline,
-          notes
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
       });
+
+      const payload = await res.json();
       if (!res.ok) {
-        const { error: msg } = await res.json();
-        throw new Error(msg || 'Failed to create request');
+        // server sends { error: '...' }
+        throw new Error(payload.error || `API error ${res.status}`);
       }
-      // success → go back to your list
+
+      // on success, go back to the list
       navigate('/hospital/requests');
     } catch (err) {
       setError(err.message);
@@ -54,77 +55,92 @@ const CreateRequest = () => {
   return (
     <div className="create-request-container">
       <div className="create-request-card">
-        <h2 className="title">New Blood Request</h2>
-        {error && <div className="error-message">{error}</div>}
-        <form onSubmit={handleSubmit} className="form">
+        <h2>Create New Blood Request</h2>
+
+        {error && 
+          <div className="alert alert-danger">{error}</div>
+        }
+
+        <form onSubmit={handleSubmit}>
+
           {/* Blood Type */}
-          <div className="form-group">
-            <label htmlFor="bloodType">Blood Type</label>
+          <div className="mb-3">
+            <label htmlFor="blood_type" className="form-label">Blood Type</label>
             <select
-              id="bloodType"
-              value={bloodType}
-              onChange={e => setBloodType(e.target.value)}
+              id="blood_type"
+              name="blood_type"
+              className="form-select"
+              value={form.blood_type}
+              onChange={handleChange}
+              required
             >
-              {['A+','A–','B+','B–','O+','O–','AB+','AB–'].map(t => (
-                <option key={t} value={t}>{t}</option>
+              {['A+','A–','B+','B–','O+','O–','AB+','AB–'].map(bt => (
+                <option key={bt} value={bt}>{bt}</option>
               ))}
             </select>
           </div>
 
-          {/* Units */}
-          <div className="form-group">
-            <label htmlFor="units">Units Needed</label>
+          {/* Units Needed */}
+          <div className="mb-3">
+            <label htmlFor="units_needed" className="form-label">Units Needed</label>
             <input
               type="number"
-              id="units"
+              id="units_needed"
+              name="units_needed"
+              className="form-control"
               min="1"
-              value={units}
-              onChange={e => setUnits(e.target.value)}
+              value={form.units_needed}
+              onChange={handleChange}
+              required
             />
           </div>
 
           {/* Location */}
-          <div className="form-group">
-            <label htmlFor="location">Location</label>
+          <div className="mb-3">
+            <label htmlFor="location" className="form-label">Location</label>
             <input
               type="text"
               id="location"
-              value={location}
-              onChange={e => setLocation(e.target.value)}
-              placeholder="City, Ward…"
+              name="location"
+              className="form-control"
+              value={form.location}
+              onChange={handleChange}
+              required
             />
           </div>
 
           {/* Deadline */}
-          <div className="form-group">
-            <label htmlFor="deadline">Deadline</label>
+          <div className="mb-3">
+            <label htmlFor="deadline" className="form-label">Deadline</label>
             <input
               type="date"
               id="deadline"
-              value={deadline}
-              onChange={e => setDeadline(e.target.value)}
+              name="deadline"
+              className="form-control"
+              value={form.deadline}
+              onChange={handleChange}
+              required
             />
           </div>
 
           {/* Notes */}
-          <div className="form-group">
-            <label htmlFor="notes">Notes (optional)</label>
+          <div className="mb-3">
+            <label htmlFor="notes" className="form-label">Notes (optional)</label>
             <textarea
               id="notes"
+              name="notes"
+              className="form-control"
               rows="3"
-              value={notes}
-              onChange={e => setNotes(e.target.value)}
-              placeholder="Anything else?"
+              value={form.notes}
+              onChange={handleChange}
             />
           </div>
 
-          <button type="submit" className="btn submit-btn">
+          <button type="submit" className="btn btn-primary">
             Submit Request
           </button>
         </form>
       </div>
     </div>
   );
-};
-
-export default CreateRequest;
+}
