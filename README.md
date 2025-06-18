@@ -1,5 +1,5 @@
 LifeLink Backend
-This backend powers the LifeLink application: hospitals can create, view, edit and cancel blood requests, while donors browse active requests and record one-unit donations.
+This Front-End powers the LifeLink application: hospitals can create, view, edit and cancel blood requests, while donors browse active requests and record one-unit donations.
 
 🏗️ Tech Stack
 • Node.js + Express  
