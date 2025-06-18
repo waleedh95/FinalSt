@@ -1,54 +1,33 @@
 // src/components/Login.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    // TODO: call your login API
-    console.log({ email, password });
-  };
+  if (isLoading) return <div className="login-container"><div className="login-card">Loading...</div></div>;
 
   return (
     <div className="login-container">
       <div className="login-card">
         <h2 className="login-title">Login</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              placeholder="you@example.com"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-            />
-          </div>
-          <button type="submit" className="btn login-btn">
-            Login
+        {isAuthenticated ? (
+          <>
+            <div className="user-info">
+              <img src={user.picture} alt={user.name} style={{ width: 60, borderRadius: '50%' }} />
+              <h3>Welcome, {user.name}</h3>
+              <p>{user.email}</p>
+            </div>
+            <button className="btn login-btn" onClick={() => logout({ returnTo: window.location.origin })}>
+              Log Out
+            </button>
+          </>
+        ) : (
+          <button className="btn login-btn" onClick={() => loginWithRedirect()}>
+            Log In with Auth0
           </button>
-        </form>
-        <div className="login-footer">
-          <Link to="/forgot-password" className="link">Forgot password?</Link>
-          <span> | </span>
-          <Link to="/signup" className="link">Create account</Link>
-        </div>
+        )}
       </div>
     </div>
   );

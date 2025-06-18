@@ -1,63 +1,89 @@
-// src/components/CreateRequest.jsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import './CreateRequest.css';
 
-import React, { useState } from 'react';           // 1. Import React and the useState hook for local component state
-import './CreateRequest.css';                      // 2. Import the CSS file specific to this component
+const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
-const CreateRequest = () => {                      // 3. Define the CreateRequest functional component
-  // 4. State hooks for each form field:
-  const [bloodType, setBloodType] = useState('A+');    // - Selected blood type, default A+
-  const [units, setUnits] = useState(1);               // - Number of units needed, default 1
-  const [location, setLocation] = useState('');        // - Text input for location details
-  const [deadline, setDeadline] = useState('');        // - Date string for request deadline
-  const [notes, setNotes] = useState('');              // - Optional notes textarea
+const CreateRequest = () => {
+  const navigate = useNavigate();
 
-  // 5. Form submission handler
-  const handleSubmit = e => {
-    e.preventDefault();                               // 6. Prevent browser reload on form submit
-    // 7. TODO: replace console.log with an API call to create the request
-    console.log({ bloodType, units, location, deadline, notes });
+  const [bloodType, setBloodType] = useState('A+');
+  const [units, setUnits] = useState(1);
+  const [location, setLocation] = useState('');
+  const [deadline, setDeadline] = useState('');
+  const [notes, setNotes] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setError('');
+
+    if (!user) {
+      setError('Please log in to create a request');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${BACKEND}/api/requests`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.access_token}`
+        },
+        body: JSON.stringify({
+          blood_type: bloodType,
+          units_needed: units,
+          location,
+          deadline,
+          notes
+        }),
+      });
+      if (!res.ok) {
+        const { error: msg } = await res.json();
+        throw new Error(msg || 'Failed to create request');
+      }
+      // success → go back to your list
+      navigate('/hospital/requests');
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
-    // 8. Outer container centers the card
     <div className="create-request-container">
-      {/* 9. Card wrapper with padding and shadow */}
       <div className="create-request-card">
-        {/* 10. Section title */}
         <h2 className="title">New Blood Request</h2>
-
-        {/* 11. The form element */}
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit} className="form">
-          {/* 12. Blood Type selector */}
+          {/* Blood Type */}
           <div className="form-group">
             <label htmlFor="bloodType">Blood Type</label>
             <select
               id="bloodType"
-              value={bloodType}                     // 13. Controlled select value
-              onChange={e => setBloodType(e.target.value)} // 14. Update state on change
+              value={bloodType}
+              onChange={e => setBloodType(e.target.value)}
             >
-              {/* 15. Map over options array */}
-              {['A+', 'A–', 'B+', 'B–', 'O+', 'O–', 'AB+', 'AB–'].map(type => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
+              {['A+','A–','B+','B–','O+','O–','AB+','AB–'].map(t => (
+                <option key={t} value={t}>{t}</option>
               ))}
             </select>
           </div>
 
-          {/* 16. Units needed input */}
+          {/* Units */}
           <div className="form-group">
             <label htmlFor="units">Units Needed</label>
             <input
               type="number"
               id="units"
               min="1"
-              value={units}                         // 17. Controlled number value
-              onChange={e => setUnits(e.target.value)} // 18. Update state
+              value={units}
+              onChange={e => setUnits(e.target.value)}
             />
           </div>
 
-          {/* 19. Location text input */}
+          {/* Location */}
           <div className="form-group">
             <label htmlFor="location">Location</label>
             <input
@@ -65,11 +91,11 @@ const CreateRequest = () => {                      // 3. Define the CreateReques
               id="location"
               value={location}
               onChange={e => setLocation(e.target.value)}
-              placeholder="City, Hospital Ward…"
+              placeholder="City, Ward…"
             />
           </div>
 
-          {/* 20. Deadline date picker */}
+          {/* Deadline */}
           <div className="form-group">
             <label htmlFor="deadline">Deadline</label>
             <input
@@ -80,19 +106,18 @@ const CreateRequest = () => {                      // 3. Define the CreateReques
             />
           </div>
 
-          {/* 21. Optional notes textarea */}
+          {/* Notes */}
           <div className="form-group">
             <label htmlFor="notes">Notes (optional)</label>
             <textarea
               id="notes"
-              rows="4"
+              rows="3"
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              placeholder="Additional details…"
+              placeholder="Anything else?"
             />
           </div>
 
-          {/* 22. Submit button */}
           <button type="submit" className="btn submit-btn">
             Submit Request
           </button>
@@ -102,4 +127,4 @@ const CreateRequest = () => {                      // 3. Define the CreateReques
   );
 };
 
-export default CreateRequest;                      // 23. Export component for routing in App.jsx
+export default CreateRequest;

@@ -1,12 +1,12 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';  // only if you’ve run `npm install bootstrap`
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+import { useAuth } from './hooks/useAuth';          // <= our hook to get the logged-in user
+
 import Home from './components/Home';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Signup from './components/Signup'; 
 import HospitalDashboard from './components/HospitalDashboard';
 import DonorDashboard from './components/DonorDashboard';
 import CreateRequest from './components/CreateRequest';
@@ -17,22 +17,43 @@ import MyDonations from './components/MyDonations';
 import NotFound from './components/NotFound';
 
 function App() {
+  const user = useAuth(); // null if not logged in, else the Auth0 profile
+
+  const BACKEND = import.meta.env.VITE_BACKEND_URL; // e.g. "http://localhost:4000"
+
   return (
     <Router>
-      {/* top-nav */}
-      <nav className="p-3 bg-light">
+      <nav className="p-3 bg-light d-flex align-items-center">
         <Link className="me-3" to="/">Home</Link>
         <Link className="me-3" to="/hospital">Hospital</Link>
         <Link className="me-3" to="/donor">Donor</Link>
-        <Link className="me-3" to="/login">Login</Link>
-        <Link to="/signup">Sign Up</Link>
+
+        <div className="ms-auto">
+          {user ? (
+            <>
+              <span className="me-3">Hello, {user.name}</span>
+       <a
+    href={`${BACKEND}/logout`}
+    className="btn btn-outline-secondary"
+      >
+        Log Out
+        </a>
+            </>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => window.location.href = `${BACKEND}/login`}
+            >
+              Log In
+            </button>
+          )}
+        </div>
       </nav>
 
       <div className="p-4">
         <Routes>
           {/* public */}
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
           {/* hospital flow */}
@@ -47,7 +68,7 @@ function App() {
           <Route path="/donor/requests/:id" element={<RequestDetail />} />
           <Route path="/donor/donations" element={<MyDonations />} />
 
-          {/* catch‐all */}
+          {/* catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
