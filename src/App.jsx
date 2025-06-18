@@ -6,7 +6,7 @@ import './App.css';
 import { useAuth } from './hooks/useAuth';          // <= our hook to get the logged-in user
 
 import Home from './components/Home';
-import Signup from './components/Signup';
+import Signup from './components/Signup'; 
 import HospitalDashboard from './components/HospitalDashboard';
 import DonorDashboard from './components/DonorDashboard';
 import CreateRequest from './components/CreateRequest';
@@ -32,12 +32,12 @@ function App() {
           {user ? (
             <>
               <span className="me-3">Hello, {user.name}</span>
-              <button
-                className="btn btn-outline-secondary"
-                onClick={() => window.location.href = `${BACKEND}/logout`}
-              >
-                Log Out
-              </button>
+       <a
+    href={`${BACKEND}/logout`}
+    className="btn btn-outline-secondary"
+      >
+        Log Out
+        </a>
             </>
           ) : (
             <button
