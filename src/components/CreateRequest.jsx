@@ -7,7 +7,6 @@ const BACKEND = import.meta.env.VITE_BACKEND_URL;
 
 const CreateRequest = () => {
   const navigate = useNavigate();
-  const user = useAuth();
 
   const [bloodType, setBloodType] = useState('A+');
   const [units, setUnits] = useState(1);
