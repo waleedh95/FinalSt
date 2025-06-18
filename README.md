@@ -1,12 +1,31 @@
-# React + Vite
+LifeLink Backend
+This backend powers the LifeLink application: hospitals can create, view, edit and cancel blood requests, while donors browse active requests and record one-unit donations.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🏗️ Tech Stack
+• Node.js + Express  
+• PostgreSQL (via pg)  
+• dotenv, cors, nodemon
 
-Currently, two official plugins are available:
+👥 User Roles & Capabilities
+• Hospital  
+ – Create a new blood request (POST /api/requests)  
+ – List all their requests (GET /api/requests)  
+ – View one request’s details (GET /api/requests/:id)  
+ – Edit any request (PUT /api/requests/:id)  
+ – Cancel/Delete a request (DELETE /api/requests/:id)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+• Donor  
+ – Browse active blood requests (GET /api/donor/requests)  
+ – Donate one unit to a request (POST /api/donor/requests/:id/donate)  
+ – View donation history (GET /api/donor/donations)
 
-## Expanding the ESLint configuration
+🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 1. Install dependencies
+
+cd lifelink-backend  
+npm install
+
+# 2. Start the development server
+
+npm run dev
